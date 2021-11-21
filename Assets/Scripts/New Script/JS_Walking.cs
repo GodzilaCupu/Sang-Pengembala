@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class JS_Walking : MonoBehaviour, IDragHandler ,IPointerDownHandler, IPointerUpHandler;
+public class JS_Walking : MonoBehaviour
 {
     [Header("Character Component")]
     [SerializeField] private CharacterController charControl;
