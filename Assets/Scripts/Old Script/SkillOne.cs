@@ -8,12 +8,13 @@ public class SkillOne : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, I
 {
     private Image bgImage;
     private Image joystickImage;
+    private Animator playerAnim;
 
     public GameObject skillMajuMundur;
     public GameObject skillRangeObject;
-    public Light lampu;
 
     public Vector2 InputDirSkill;
+    public Transform player;
 
     public float offset = 2f;
     public float minOffset = 0.03f;
@@ -24,7 +25,7 @@ public class SkillOne : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, I
 
     static int active;
 
-    private GameObject jebakan;
+    private GameObject objSpawn;
     public GameObject objPrefabs;
 
     // Start is called before the first frame update
@@ -32,12 +33,12 @@ public class SkillOne : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, I
     {
         bgImage = GetComponent<Image>();
         joystickImage = transform.GetChild(0).GetComponent<Image>();
-        
+
+        playerAnim = GameObject.Find("Character").GetComponent<Animator>();
+
         InputDirSkill = Vector2.zero;
         skillRangeObject.GetComponent<Renderer>().enabled = false;
         skillMajuMundur.GetComponent<Renderer>().enabled = false;
-        //lampu = GetComponent<Light>();
-        lampu.enabled = false;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -57,22 +58,21 @@ public class SkillOne : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, I
 
             //buat bola
             //GameObject bola = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            jebakan = GameObject.Instantiate(objPrefabs, targetPos, Quaternion.identity);
+            objSpawn = GameObject.Instantiate(objPrefabs, targetPos, Quaternion.identity);
             
             //Color randomColor = new Color(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
-            jebakan.transform.position = targetPos;
+            objSpawn.transform.position = targetPos;
             //bola.GetComponent<Renderer>().material.color = randomColor;
+            playerAnim.SetTrigger("Shoot");
         }
 
-        lampu.enabled = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         skillRangeObject.GetComponent<Renderer>().enabled = true;
         OnDrag(eventData);
-        lampu.enabled = true;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -113,15 +113,14 @@ public class SkillOne : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, I
                 active = 0;
             }
 
-            lampu.transform.LookAt(skillMajuMundur.transform.position);
-
         }
 
     }
 
     // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
+        skillRangeObject.transform.position = player.position +;
         
     }
 }

@@ -9,6 +9,8 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     private Image bgImage;
     private Image joyStickImage;
 
+    private Animator playerAnim;
+
     public Vector2 inputDir;
 
     public float offset = 2f;
@@ -24,6 +26,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     {
         bgImage = GetComponent<Image> ();
         joyStickImage = transform.GetChild(0).GetComponent<Image>();
+        playerAnim = GameObject.Find("Character").GetComponent<Animator>();
     }
 
 
@@ -44,7 +47,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
             //Objek putar
             zAxis = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg;
             objectPutar.transform.eulerAngles = new Vector3(0, zAxis, 0);
-
+            playerAnim.SetBool("Walk", true);
         }
 
     }
@@ -58,6 +61,8 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
     {
         inputDir = Vector2.zero;
         joyStickImage.rectTransform.anchoredPosition = Vector2.zero;
+        playerAnim.SetBool("Walk", false);
+
     }
 
     // Update is called once per frame

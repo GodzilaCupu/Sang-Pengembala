@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class JS_Walking : MonoBehaviour
+public class JoystickScript : MonoBehaviour
 {
     [Header("Character Component")]
     [SerializeField] private CharacterController charControl;
